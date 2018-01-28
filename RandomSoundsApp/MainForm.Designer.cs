@@ -103,19 +103,19 @@ namespace RandomSoundsApp
         	// scanDirectoryToolStripMenuItem
         	// 
         	this.scanDirectoryToolStripMenuItem.Name = "scanDirectoryToolStripMenuItem";
-        	this.scanDirectoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.scanDirectoryToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
         	this.scanDirectoryToolStripMenuItem.Text = "&Scan directory";
         	this.scanDirectoryToolStripMenuItem.Click += new System.EventHandler(this.OnScanDirectoryToolStripMenuItemClick);
         	// 
         	// toolStripSeparator2
         	// 
         	this.toolStripSeparator2.Name = "toolStripSeparator2";
-        	this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+        	this.toolStripSeparator2.Size = new System.Drawing.Size(146, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.OnExitToolStripMenuItemClick);
         	// 
@@ -134,6 +134,7 @@ namespace RandomSoundsApp
         	// 
         	// headquartersPatreoncomToolStripMenuItem
         	// 
+        	this.headquartersPatreoncomToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("headquartersPatreoncomToolStripMenuItem.Image")));
         	this.headquartersPatreoncomToolStripMenuItem.Name = "headquartersPatreoncomToolStripMenuItem";
         	this.headquartersPatreoncomToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
         	this.headquartersPatreoncomToolStripMenuItem.Text = "Headquarters @ Patreon.com";
@@ -141,6 +142,7 @@ namespace RandomSoundsApp
         	// 
         	// sourceCodeGithubcomToolStripMenuItem
         	// 
+        	this.sourceCodeGithubcomToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("sourceCodeGithubcomToolStripMenuItem.Image")));
         	this.sourceCodeGithubcomToolStripMenuItem.Name = "sourceCodeGithubcomToolStripMenuItem";
         	this.sourceCodeGithubcomToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
         	this.sourceCodeGithubcomToolStripMenuItem.Text = "Source code @ Github.com";
