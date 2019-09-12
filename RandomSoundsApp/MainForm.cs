@@ -9,6 +9,7 @@ namespace RandomSoundsApp
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using Microsoft.Win32;
 
@@ -24,6 +25,28 @@ namespace RandomSoundsApp
         {
             // The InitializeComponent() call is required for Windows Forms designer support.
             this.InitializeComponent();
+
+            /* Autostart processing */
+
+            // Set arguments via environment as list (instead of string[] args for convenience i.e. .Count, etc)
+            List<string> argsList = new List<string>(Environment.GetCommandLineArgs());
+
+            // Check for autostart argument
+            if (argsList.Count > 1 && argsList[1].ToLowerInvariant() == "/autostart")
+            {
+                // TODO Minimize to tray
+            }
+
+            // Open registry key
+            using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+            {
+                // Check for app value
+                if (registryKey.GetValueNames().Contains("RandomSoundsApp"))
+                {
+                    // Toggle start check box
+                    this.startCheckBox.Checked = true;
+                }
+            }
         }
 
         /// <summary>
@@ -56,17 +79,17 @@ namespace RandomSoundsApp
             try
             {
                 // Open registry key
-                using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
                 {
                     // Check if must write to registry
                     if (this.startCheckBox.Checked)
                     {
-                        // Add executable path
-                        registryKey.SetValue("RandomSoundsApp", "\"" + Application.ExecutablePath + "\"");
+                        // Add app value
+                        registryKey.SetValue("RandomSoundsApp", $"\"{Application.ExecutablePath}\" /autostart");
                     }
                     else
                     {
-                        // Remove app
+                        // Erase app value
                         registryKey.DeleteValue("RandomSoundsApp", false);
                     }
                 }
@@ -74,7 +97,7 @@ namespace RandomSoundsApp
             catch
             {
                 // Inform user
-                MessageBox.Show("Error when writing to windows registry.", "Registry error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error when writing to Windows registry.", "Registry error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
