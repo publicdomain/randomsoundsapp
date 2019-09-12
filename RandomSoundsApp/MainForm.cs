@@ -26,6 +26,24 @@ namespace RandomSoundsApp
             // The InitializeComponent() call is required for Windows Forms designer support.
             this.InitializeComponent();
 
+            // Set notify icon (utilize current one)
+            this.mainNotifyIcon.Icon = this.Icon;
+
+            // Open registry key
+            using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+            {
+                // Toggle check box by app value presence
+                this.startCheckBox.Checked |= registryKey.GetValueNames().Contains("RandomSoundsApp");
+            }
+        }
+
+        /// <summary>
+        /// Handles the main form load event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnMainFormLoad(object sender, EventArgs e)
+        {
             /* Autostart processing */
 
             // Set arguments via environment as list (instead of string[] args for convenience i.e. .Count, etc)
@@ -34,18 +52,8 @@ namespace RandomSoundsApp
             // Check for autostart argument
             if (argsList.Count > 1 && argsList[1].ToLowerInvariant() == "/autostart")
             {
-                // TODO Minimize to tray
-            }
-
-            // Open registry key
-            using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
-            {
-                // Check for app value
-                if (registryKey.GetValueNames().Contains("RandomSoundsApp"))
-                {
-                    // Toggle start check box
-                    this.startCheckBox.Checked = true;
-                }
+                // Start as a system tray icon
+                this.SendToSystemTray();
             }
         }
 
@@ -97,7 +105,7 @@ namespace RandomSoundsApp
             catch
             {
                 // Inform user
-                MessageBox.Show("Error when writing to Windows registry.", "Registry error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error when interacting with the Windows registry.", "Registry error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -122,7 +130,7 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
-        /// Ons the scan directory tool strip menu item click event.
+        /// Handles the scan directory tool strip menu item click event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
@@ -138,7 +146,8 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnExitToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Close app
+            this.Close();
         }
 
         /// <summary>
@@ -164,8 +173,8 @@ namespace RandomSoundsApp
         /// <summary>
         /// Handles the original thread donationcoder.com tool strip menu item click event.
         /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
         private void OnOriginalThreadDonationCodercomToolStripMenuItemClick(object sender, EventArgs e)
         {
             // TODO Add code.
@@ -179,6 +188,80 @@ namespace RandomSoundsApp
         private void OnAboutToolStripMenuItemClick(object sender, EventArgs e)
         {
             // TODO Add code.
+        }
+
+        /// <summary>
+        /// Handles the show tool strip menu item click event. 
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnShowToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            // Restore window 
+            this.RestoreFromSystemTray();
+        }
+
+        /// <summary>
+        /// Handles the main notify icon mouse click event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Mouse event arguments.</param>
+        private void OnMainNotifyIconMouseClick(object sender, MouseEventArgs e)
+        {
+            // Check for left click
+            if (e.Button == MouseButtons.Left)
+            {
+                // Restore window 
+                this.RestoreFromSystemTray();
+            }
+        }
+
+        /// <summary>
+        /// Sends the program to the system tray.
+        /// </summary>
+        private void SendToSystemTray()
+        {
+            // Hide main form
+            this.Hide();
+
+            // Remove from task bar
+            this.ShowInTaskbar = false;
+
+            // Show notify icon 
+            this.mainNotifyIcon.Visible = true;
+        }
+
+        /// <summary>
+        /// Restores the window back from system tray to the foreground.
+        /// </summary>
+        private void RestoreFromSystemTray()
+        {
+            // Make form visible again
+            this.Show();
+
+            // Return window back to normal
+            this.WindowState = FormWindowState.Normal;
+
+            // Restore in task bar
+            this.ShowInTaskbar = true;
+
+            // Hide system tray icon
+            this.mainNotifyIcon.Visible = false;
+        }
+
+        /// <summary>
+        /// Handles the main form resize event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnMainFormResize(object sender, EventArgs e)
+        {
+            // Check for minimized state
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                // Send to the system tray
+                this.SendToSystemTray();
+            }
         }
     }
 }
