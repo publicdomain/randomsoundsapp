@@ -10,6 +10,7 @@ namespace RandomSoundsApp
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
+    using Microsoft.Win32;
 
     /// <summary>
     /// Main form.
@@ -52,7 +53,29 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnStartCheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            // TODO Add code.
+            try
+            {
+                // Open registry key
+                using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    // Check if must write to registry
+                    if (this.startCheckBox.Checked)
+                    {
+                        // Add executable path
+                        registryKey.SetValue("RandomSoundsApp", "\"" + Application.ExecutablePath + "\"");
+                    }
+                    else
+                    {
+                        // Remove app
+                        registryKey.DeleteValue("RandomSoundsApp", false);
+                    }
+                }
+            }
+            catch
+            {
+                // Inform user
+                MessageBox.Show("Error when writing to windows registry.", "Registry error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
