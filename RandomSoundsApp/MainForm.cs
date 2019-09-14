@@ -9,6 +9,7 @@ namespace RandomSoundsApp
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.IO;
     using System.Linq;
     using System.Windows.Forms;
     using Microsoft.Win32;
@@ -18,6 +19,11 @@ namespace RandomSoundsApp
     /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// The sound file list.
+        /// </summary>
+        private List<string> soundFileList = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
         /// </summary>
@@ -61,6 +67,15 @@ namespace RandomSoundsApp
                 // Start as a system tray icon
                 this.SendToSystemTray();
             }
+        }
+
+        /// <summary>
+        /// Scans current directory for sound files.
+        /// </summary>
+        private void ScanDirectory()
+        {
+            // Populate sound file list
+            this.soundFileList = new List<string>(Directory.GetFiles(Application.StartupPath, "*.wav", SearchOption.AllDirectories));
         }
 
         /// <summary>
