@@ -246,6 +246,7 @@ namespace RandomSoundsApp
         	this.everyIntervalRadioButton.TabStop = true;
         	this.everyIntervalRadioButton.Text = "Play sound exactly every";
         	this.everyIntervalRadioButton.UseVisualStyleBackColor = true;
+        	this.everyIntervalRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
         	// 
         	// randomIntervalRadioButton
         	// 
@@ -255,6 +256,7 @@ namespace RandomSoundsApp
         	this.randomIntervalRadioButton.TabIndex = 8;
         	this.randomIntervalRadioButton.Text = "Play sound at a random time ";
         	this.randomIntervalRadioButton.UseVisualStyleBackColor = true;
+        	this.randomIntervalRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
         	// 
         	// onOffPanel
         	// 
@@ -286,6 +288,7 @@ namespace RandomSoundsApp
         	        	        	0,
         	        	        	0,
         	        	        	0});
+        	this.everyIntervalNumericUpDown.ValueChanged += new System.EventHandler(this.OnNumericUpDownValueChanged);
         	// 
         	// minutesLabel
         	// 
@@ -316,6 +319,7 @@ namespace RandomSoundsApp
         	        	        	0,
         	        	        	0,
         	        	        	0});
+        	this.randomIntervalNumericUpDown.ValueChanged += new System.EventHandler(this.OnNumericUpDownValueChanged);
         	// 
         	// minuteIntervalLabel
         	// 

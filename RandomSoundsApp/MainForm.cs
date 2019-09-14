@@ -11,6 +11,7 @@ namespace RandomSoundsApp
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Media;
     using System.Windows.Forms;
     using Microsoft.Win32;
 
@@ -20,9 +21,19 @@ namespace RandomSoundsApp
     public partial class MainForm : Form
     {
         /// <summary>
+        /// The sound player.
+        /// </summary>
+        private SoundPlayer soundPlayer = null;
+
+        /// <summary>
         /// The sound file list.
         /// </summary>
         private List<string> soundFileList = null;
+
+        /// <summary>
+        /// The pseudo-random number generator.
+        /// </summary>
+        private Random random = new Random();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
@@ -73,6 +84,41 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
+        /// Plays the passed sound file.
+        /// </summary>
+        /// <param name="filePath">File path.</param>
+        private void PlaySoundFile(string filePath)
+        {
+            // Check for previous player
+            if (this.soundPlayer != null)
+            {
+                // Stop it
+                this.soundPlayer.Stop();
+
+                // Dispose of it
+                this.soundPlayer.Dispose();
+
+                // Reset instance variable
+                this.soundPlayer = null;
+            }
+
+            // Set instance player afresh
+            this.soundPlayer = new SoundPlayer(filePath);
+
+            // Play the passed file
+            this.soundPlayer.Play();
+        }
+
+        /// <summary>
+        /// Plays a random sound in collected file list.
+        /// </summary>
+        private void PlayRandomSoundFile()
+        {
+            // Re-use random to pick file
+            this.PlaySoundFile(this.soundFileList[this.random.Next(this.soundFileList.Count)]);
+        }
+
+        /// <summary>
         /// Scans current directory for sound files.
         /// </summary>
         private void ScanDirectory()
@@ -91,13 +137,59 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
+        /// Handles the checked changed event for both settings radio buttons.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnSettingsRadioButtonCheckedChanged(object sender, EventArgs e)
+        {
+            // Check for no checked radio button
+            if (!this.everyIntervalRadioButton.Checked && !this.randomIntervalRadioButton.Checked)
+            {
+                // Halt flow
+                return;
+            }
+
+            /* Process */
+
+            // Check if interval radio button is checked
+            if (this.randomIntervalRadioButton.Checked)
+            {
+                // Trigger initial timer tick
+                this.OnExactTimerTick(null, null);
+            }
+
+            // Set timer interval in milliseconds
+            this.exactTimer.Interval = Convert.ToInt32((this.everyIntervalRadioButton.Checked ? this.everyIntervalNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
+
+            // Start exact timer
+            this.exactTimer.Start();
+
+            // Set settings label color
+            this.settingsLabel.ForeColor = Color.Red;
+        }
+
+        /// <summary>
         /// Handles the exact timer tick event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
         private void OnExactTimerTick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Check for every interval
+            if (this.everyIntervalRadioButton.Checked)
+            {
+                // Play random sound file
+                this.PlayRandomSoundFile();
+            }
+            else
+            {
+                // Set random interval timer interval in milliseconds
+                this.randomIntervalTimer.Interval = this.random.Next(Convert.ToInt32(this.randomIntervalNumericUpDown.Value * 60 * 1000));
+
+                // Start random interval timer
+                this.randomIntervalTimer.Start();
+            }
         }
 
         /// <summary>
@@ -107,7 +199,11 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnRandomIntervalTimerTick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Stop the timer
+            this.randomIntervalTimer.Stop();
+
+            // Play random sound file
+            this.PlayRandomSoundFile();
         }
 
         /// <summary>
@@ -148,11 +244,15 @@ namespace RandomSoundsApp
         /// <param name="isEnabled">If set to <c>true</c> enables all controls. Disables them otherwise.</param>
         private void EnableDisableControls(bool isEnabled)
         {
-            // Check if must unckeck radio buttons
+            // Check if passed value is false
             if (!isEnabled)
             {
+                // Unckeck radio buttons
                 this.everyIntervalRadioButton.Checked = false;
                 this.randomIntervalRadioButton.Checked = false;
+
+                // Reset settings label color
+                this.settingsLabel.ForeColor = Color.Black;
             }
 
             // Set enabled status for relevant controls
@@ -163,6 +263,10 @@ namespace RandomSoundsApp
             this.minuteIntervalLabel.Enabled = isEnabled;
             this.everyIntervalNumericUpDown.Enabled = isEnabled;
             this.randomIntervalNumericUpDown.Enabled = isEnabled;
+
+            // Stop timers
+            this.exactTimer.Stop();
+            this.randomIntervalTimer.Stop();
         }
 
         /// <summary>
@@ -193,6 +297,17 @@ namespace RandomSoundsApp
 
             // Disable relevant form controls
             this.EnableDisableControls(false);
+        }
+
+        /// <summary>
+        /// Handles the numeric up down value changed event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnNumericUpDownValueChanged(object sender, EventArgs e)
+        {
+            // Trigger settings radio button check
+            this.OnSettingsRadioButtonCheckedChanged(null, null);
         }
 
         /// <summary>
