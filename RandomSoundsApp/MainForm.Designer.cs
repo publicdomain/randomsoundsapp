@@ -103,19 +103,19 @@ namespace RandomSoundsApp
         	// scanDirectoryToolStripMenuItem
         	// 
         	this.scanDirectoryToolStripMenuItem.Name = "scanDirectoryToolStripMenuItem";
-        	this.scanDirectoryToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+        	this.scanDirectoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
         	this.scanDirectoryToolStripMenuItem.Text = "&Scan directory";
         	this.scanDirectoryToolStripMenuItem.Click += new System.EventHandler(this.OnScanDirectoryToolStripMenuItemClick);
         	// 
         	// toolStripSeparator2
         	// 
         	this.toolStripSeparator2.Name = "toolStripSeparator2";
-        	this.toolStripSeparator2.Size = new System.Drawing.Size(146, 6);
+        	this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
         	// 
         	// exitToolStripMenuItem
         	// 
         	this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+        	this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
         	this.exitToolStripMenuItem.Text = "E&xit";
         	this.exitToolStripMenuItem.Click += new System.EventHandler(this.OnExitToolStripMenuItemClick);
         	// 
