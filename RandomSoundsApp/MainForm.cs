@@ -47,6 +47,9 @@ namespace RandomSoundsApp
 
             // Scan directory for sound files
             this.ScanDirectory();
+
+            // Update status with scan result count
+            this.UpdateStatusLabel();
         }
 
         /// <summary>
@@ -76,6 +79,15 @@ namespace RandomSoundsApp
         {
             // Populate sound file list
             this.soundFileList = new List<string>(Directory.GetFiles(Application.StartupPath, "*.wav", SearchOption.AllDirectories));
+        }
+
+        /// <summary>
+        /// Updates the status label.
+        /// </summary>
+        private void UpdateStatusLabel()
+        {
+            // Assign count with message
+            this.mainToolStripStatusLabel.Text = $"Found {this.soundFileList.Count} sound files to play";
         }
 
         /// <summary>
