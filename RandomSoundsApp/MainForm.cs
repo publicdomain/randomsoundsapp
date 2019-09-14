@@ -35,6 +35,12 @@ namespace RandomSoundsApp
                 // Toggle check box by app value presence
                 this.startCheckBox.Checked |= registryKey.GetValueNames().Contains("RandomSoundsApp");
             }
+
+            // Match off radio button state by disabling controls on start
+            this.EnableDisableControls(false);
+
+            // Scan directory for sound files
+            this.ScanDirectory();
         }
 
         /// <summary>
@@ -110,13 +116,34 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
+        /// Enables or disables relevant controls in the form.
+        /// </summary>
+        /// <param name="isEnabled">If set to <c>true</c> enables all controls. Disables them otherwise.</param>
+        private void EnableDisableControls(bool isEnabled)
+        {
+            // Set enabled status for relevant controls
+            this.everyIntervalRadioButton.Enabled = isEnabled;
+            this.randomIntervalRadioButton.Enabled = isEnabled;
+            this.inEveryLabel.Enabled = isEnabled;
+            this.minutesLabel.Enabled = isEnabled;
+            this.minuteIntervalLabel.Enabled = isEnabled;
+            this.everyIntervalNumericUpDown.Enabled = isEnabled;
+            this.randomIntervalNumericUpDown.Enabled = isEnabled;
+        }
+
+        /// <summary>
         /// Handles the on radio button checked changed event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
         private void OnOnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Toggle colors
+            this.onRadioButton.ForeColor = Color.Red;
+            this.offRadioButton.ForeColor = Color.Black;
+
+            // Enable relevant form controls
+            this.EnableDisableControls(true);
         }
 
         /// <summary>
@@ -126,7 +153,12 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnOffRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Toggle colors
+            this.offRadioButton.ForeColor = Color.Red;
+            this.onRadioButton.ForeColor = Color.Black;
+
+            // Disable relevant form controls
+            this.EnableDisableControls(false);
         }
 
         /// <summary>
