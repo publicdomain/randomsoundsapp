@@ -8,6 +8,7 @@ namespace RandomSoundsApp
     // Directives
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Linq;
@@ -319,7 +320,7 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnExitToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // Close app
+            // Close application
             this.Close();
         }
 
@@ -330,7 +331,8 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnHeadquartersPatreoncomToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Open Patreon headquarters
+            Process.Start("https://www.patreon.com/publicdomain/");
         }
 
         /// <summary>
@@ -340,7 +342,8 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnSourceCodeGithubcomToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Open GitHub
+            Process.Start("https://github.com/publicdomain//");
         }
 
         /// <summary>
@@ -350,7 +353,8 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnOriginalThreadDonationCodercomToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // TODO Add code.
+            // Open original thread @ DonationCoder
+            Process.Start("https://www.donationcoder.com/forum/index.php?topic=48061.0");
         }
 
         /// <summary>
