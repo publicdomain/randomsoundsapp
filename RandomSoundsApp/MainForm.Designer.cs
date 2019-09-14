@@ -282,7 +282,7 @@ namespace RandomSoundsApp
         	this.everyIntervalNumericUpDown.Size = new System.Drawing.Size(50, 20);
         	this.everyIntervalNumericUpDown.TabIndex = 11;
         	this.everyIntervalNumericUpDown.Value = new decimal(new int[] {
-        	        	        	1,
+        	        	        	15,
         	        	        	0,
         	        	        	0,
         	        	        	0});
@@ -312,7 +312,7 @@ namespace RandomSoundsApp
         	this.randomIntervalNumericUpDown.Size = new System.Drawing.Size(50, 20);
         	this.randomIntervalNumericUpDown.TabIndex = 11;
         	this.randomIntervalNumericUpDown.Value = new decimal(new int[] {
-        	        	        	1,
+        	        	        	15,
         	        	        	0,
         	        	        	0,
         	        	        	0});

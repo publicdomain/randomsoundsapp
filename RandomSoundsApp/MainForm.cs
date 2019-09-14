@@ -148,6 +148,13 @@ namespace RandomSoundsApp
         /// <param name="isEnabled">If set to <c>true</c> enables all controls. Disables them otherwise.</param>
         private void EnableDisableControls(bool isEnabled)
         {
+            // Check if must unckeck radio buttons
+            if (!isEnabled)
+            {
+                this.everyIntervalRadioButton.Checked = false;
+                this.randomIntervalRadioButton.Checked = false;
+            }
+
             // Set enabled status for relevant controls
             this.everyIntervalRadioButton.Enabled = isEnabled;
             this.randomIntervalRadioButton.Enabled = isEnabled;
