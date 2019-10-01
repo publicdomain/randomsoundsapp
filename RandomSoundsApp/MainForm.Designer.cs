@@ -94,7 +94,7 @@ namespace RandomSoundsApp
         	        	        	this.helpToolStripMenuItem});
         	this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
         	this.mainMenuStrip.Name = "mainMenuStrip";
-        	this.mainMenuStrip.Size = new System.Drawing.Size(260, 24);
+        	this.mainMenuStrip.Size = new System.Drawing.Size(270, 24);
         	this.mainMenuStrip.TabIndex = 4;
         	// 
         	// fileToolStripMenuItem
@@ -184,9 +184,10 @@ namespace RandomSoundsApp
         	// 
         	this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainToolStripStatusLabel});
-        	this.mainStatusStrip.Location = new System.Drawing.Point(0, 331);
+        	this.mainStatusStrip.Location = new System.Drawing.Point(0, 330);
         	this.mainStatusStrip.Name = "mainStatusStrip";
-        	this.mainStatusStrip.Size = new System.Drawing.Size(260, 22);
+        	this.mainStatusStrip.Size = new System.Drawing.Size(270, 22);
+        	this.mainStatusStrip.SizingGrip = false;
         	this.mainStatusStrip.TabIndex = 3;
         	// 
         	// mainToolStripStatusLabel
@@ -248,12 +249,10 @@ namespace RandomSoundsApp
         	// 
         	// fromTheHourRadioButton
         	// 
-        	this.fromTheHourRadioButton.Checked = true;
         	this.fromTheHourRadioButton.Location = new System.Drawing.Point(15, 126);
         	this.fromTheHourRadioButton.Name = "fromTheHourRadioButton";
         	this.fromTheHourRadioButton.Size = new System.Drawing.Size(191, 24);
         	this.fromTheHourRadioButton.TabIndex = 8;
-        	this.fromTheHourRadioButton.TabStop = true;
         	this.fromTheHourRadioButton.Text = "Play sound exactly every";
         	this.fromTheHourRadioButton.UseVisualStyleBackColor = true;
         	this.fromTheHourRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
@@ -468,7 +467,7 @@ namespace RandomSoundsApp
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(260, 353);
+        	this.ClientSize = new System.Drawing.Size(270, 352);
         	this.Controls.Add(this.startCheckBox);
         	this.Controls.Add(this.minuteIntervalLabel);
         	this.Controls.Add(this.randomIntervalNumericUpDown);
@@ -489,9 +488,10 @@ namespace RandomSoundsApp
         	this.Controls.Add(this.mainMenuStrip);
         	this.Controls.Add(this.mainStatusStrip);
         	this.Controls.Add(this.inEveryLabel);
+        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MaximizeBox = false;
-        	this.MinimumSize = new System.Drawing.Size(276, 391);
+        	this.MinimumSize = new System.Drawing.Size(276, 300);
         	this.Name = "MainForm";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         	this.Text = "Random Sounds App";
