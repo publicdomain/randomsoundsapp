@@ -59,6 +59,11 @@ namespace RandomSoundsApp
         private string friendlyName = "Random Sounds App";
 
         /// <summary>
+        /// The scanned files.
+        /// </summary>
+        private string scannedFiles = string.Empty;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
         /// </summary>
         public MainForm()
@@ -149,8 +154,11 @@ namespace RandomSoundsApp
             // Populate sound file list
             this.soundFileList = new List<string>(Directory.GetFiles(Application.StartupPath, "*.wav", SearchOption.AllDirectories));
 
-            // Assign count with message
-            this.mainToolStripStatusLabel.Text = $"Found {this.soundFileList.Count} sound files to play";
+            // Set scanned files
+            this.scannedFiles = $"Found {this.soundFileList.Count} sound files to play";
+
+            // Inform scanned file count
+            this.mainToolStripStatusLabel.Text = this.scannedFiles;
         }
 
         /// <summary>
@@ -324,6 +332,9 @@ namespace RandomSoundsApp
 
             // Disable relevant form controls
             this.EnableDisableControls(false);
+
+            // Inform scanned file count
+            this.mainToolStripStatusLabel.Text = this.scannedFiles;
         }
 
         /// <summary>
