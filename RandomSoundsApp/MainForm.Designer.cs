@@ -54,17 +54,17 @@ namespace RandomSoundsApp
         	this.headerLabel = new System.Windows.Forms.Label();
         	this.onRadioButton = new System.Windows.Forms.RadioButton();
         	this.offRadioButton = new System.Windows.Forms.RadioButton();
-        	this.label2 = new System.Windows.Forms.Label();
+        	this.firstLineLabel = new System.Windows.Forms.Label();
         	this.settingsLabel = new System.Windows.Forms.Label();
-        	this.everyIntervalRadioButton = new System.Windows.Forms.RadioButton();
+        	this.fromTheHourRadioButton = new System.Windows.Forms.RadioButton();
         	this.randomIntervalRadioButton = new System.Windows.Forms.RadioButton();
         	this.onOffPanel = new System.Windows.Forms.Panel();
-        	this.everyIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
-        	this.minutesLabel = new System.Windows.Forms.Label();
+        	this.fromTheHourNumericUpDown = new System.Windows.Forms.NumericUpDown();
+        	this.hourMinutesLabel = new System.Windows.Forms.Label();
         	this.randomIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
         	this.minuteIntervalLabel = new System.Windows.Forms.Label();
         	this.inEveryLabel = new System.Windows.Forms.Label();
-        	this.label7 = new System.Windows.Forms.Label();
+        	this.secondLineLabel = new System.Windows.Forms.Label();
         	this.startCheckBox = new System.Windows.Forms.CheckBox();
         	this.exactTimer = new System.Windows.Forms.Timer(this.components);
         	this.randomIntervalTimer = new System.Windows.Forms.Timer(this.components);
@@ -72,12 +72,19 @@ namespace RandomSoundsApp
         	this.notifyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         	this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.notifyExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.fromTheHourLabel = new System.Windows.Forms.Label();
+        	this.everyIntervalRadioButton = new System.Windows.Forms.RadioButton();
+        	this.everyIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
+        	this.nowMinutesLabel = new System.Windows.Forms.Label();
+        	this.fromNowLabel = new System.Windows.Forms.Label();
+        	this.fromTheHourTimer = new System.Windows.Forms.Timer(this.components);
         	this.mainMenuStrip.SuspendLayout();
         	this.mainStatusStrip.SuspendLayout();
         	this.onOffPanel.SuspendLayout();
-        	((System.ComponentModel.ISupportInitialize)(this.everyIntervalNumericUpDown)).BeginInit();
+        	((System.ComponentModel.ISupportInitialize)(this.fromTheHourNumericUpDown)).BeginInit();
         	((System.ComponentModel.ISupportInitialize)(this.randomIntervalNumericUpDown)).BeginInit();
         	this.notifyContextMenuStrip.SuspendLayout();
+        	((System.ComponentModel.ISupportInitialize)(this.everyIntervalNumericUpDown)).BeginInit();
         	this.SuspendLayout();
         	// 
         	// mainMenuStrip
@@ -177,7 +184,7 @@ namespace RandomSoundsApp
         	// 
         	this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.mainToolStripStatusLabel});
-        	this.mainStatusStrip.Location = new System.Drawing.Point(0, 262);
+        	this.mainStatusStrip.Location = new System.Drawing.Point(0, 331);
         	this.mainStatusStrip.Name = "mainStatusStrip";
         	this.mainStatusStrip.Size = new System.Drawing.Size(260, 22);
         	this.mainStatusStrip.TabIndex = 3;
@@ -222,13 +229,13 @@ namespace RandomSoundsApp
         	this.offRadioButton.UseVisualStyleBackColor = true;
         	this.offRadioButton.CheckedChanged += new System.EventHandler(this.OnOffRadioButtonCheckedChanged);
         	// 
-        	// label2
+        	// firstLineLabel
         	// 
-        	this.label2.Location = new System.Drawing.Point(15, 76);
-        	this.label2.Name = "label2";
-        	this.label2.Size = new System.Drawing.Size(219, 23);
-        	this.label2.TabIndex = 7;
-        	this.label2.Text = "___________________________________________";
+        	this.firstLineLabel.Location = new System.Drawing.Point(15, 76);
+        	this.firstLineLabel.Name = "firstLineLabel";
+        	this.firstLineLabel.Size = new System.Drawing.Size(219, 23);
+        	this.firstLineLabel.TabIndex = 7;
+        	this.firstLineLabel.Text = "___________________________________________";
         	// 
         	// settingsLabel
         	// 
@@ -239,21 +246,21 @@ namespace RandomSoundsApp
         	this.settingsLabel.TabIndex = 5;
         	this.settingsLabel.Text = "Settings:";
         	// 
-        	// everyIntervalRadioButton
+        	// fromTheHourRadioButton
         	// 
-        	this.everyIntervalRadioButton.Checked = true;
-        	this.everyIntervalRadioButton.Location = new System.Drawing.Point(15, 130);
-        	this.everyIntervalRadioButton.Name = "everyIntervalRadioButton";
-        	this.everyIntervalRadioButton.Size = new System.Drawing.Size(191, 24);
-        	this.everyIntervalRadioButton.TabIndex = 8;
-        	this.everyIntervalRadioButton.TabStop = true;
-        	this.everyIntervalRadioButton.Text = "Play sound exactly every";
-        	this.everyIntervalRadioButton.UseVisualStyleBackColor = true;
-        	this.everyIntervalRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
+        	this.fromTheHourRadioButton.Checked = true;
+        	this.fromTheHourRadioButton.Location = new System.Drawing.Point(15, 126);
+        	this.fromTheHourRadioButton.Name = "fromTheHourRadioButton";
+        	this.fromTheHourRadioButton.Size = new System.Drawing.Size(191, 24);
+        	this.fromTheHourRadioButton.TabIndex = 8;
+        	this.fromTheHourRadioButton.TabStop = true;
+        	this.fromTheHourRadioButton.Text = "Play sound exactly every";
+        	this.fromTheHourRadioButton.UseVisualStyleBackColor = true;
+        	this.fromTheHourRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
         	// 
         	// randomIntervalRadioButton
         	// 
-        	this.randomIntervalRadioButton.Location = new System.Drawing.Point(15, 160);
+        	this.randomIntervalRadioButton.Location = new System.Drawing.Point(15, 224);
         	this.randomIntervalRadioButton.Name = "randomIntervalRadioButton";
         	this.randomIntervalRadioButton.Size = new System.Drawing.Size(191, 24);
         	this.randomIntervalRadioButton.TabIndex = 8;
@@ -270,40 +277,40 @@ namespace RandomSoundsApp
         	this.onOffPanel.Size = new System.Drawing.Size(222, 33);
         	this.onOffPanel.TabIndex = 10;
         	// 
-        	// everyIntervalNumericUpDown
+        	// fromTheHourNumericUpDown
         	// 
-        	this.everyIntervalNumericUpDown.Location = new System.Drawing.Point(156, 133);
-        	this.everyIntervalNumericUpDown.Maximum = new decimal(new int[] {
+        	this.fromTheHourNumericUpDown.Location = new System.Drawing.Point(156, 129);
+        	this.fromTheHourNumericUpDown.Maximum = new decimal(new int[] {
         	        	        	1440,
         	        	        	0,
         	        	        	0,
         	        	        	0});
-        	this.everyIntervalNumericUpDown.Minimum = new decimal(new int[] {
+        	this.fromTheHourNumericUpDown.Minimum = new decimal(new int[] {
         	        	        	1,
         	        	        	0,
         	        	        	0,
         	        	        	0});
-        	this.everyIntervalNumericUpDown.Name = "everyIntervalNumericUpDown";
-        	this.everyIntervalNumericUpDown.Size = new System.Drawing.Size(50, 20);
-        	this.everyIntervalNumericUpDown.TabIndex = 11;
-        	this.everyIntervalNumericUpDown.Value = new decimal(new int[] {
+        	this.fromTheHourNumericUpDown.Name = "fromTheHourNumericUpDown";
+        	this.fromTheHourNumericUpDown.Size = new System.Drawing.Size(50, 20);
+        	this.fromTheHourNumericUpDown.TabIndex = 11;
+        	this.fromTheHourNumericUpDown.Value = new decimal(new int[] {
         	        	        	15,
         	        	        	0,
         	        	        	0,
         	        	        	0});
-        	this.everyIntervalNumericUpDown.ValueChanged += new System.EventHandler(this.OnNumericUpDownValueChanged);
+        	this.fromTheHourNumericUpDown.ValueChanged += new System.EventHandler(this.OnNumericUpDownValueChanged);
         	// 
-        	// minutesLabel
+        	// hourMinutesLabel
         	// 
-        	this.minutesLabel.Location = new System.Drawing.Point(209, 135);
-        	this.minutesLabel.Name = "minutesLabel";
-        	this.minutesLabel.Size = new System.Drawing.Size(53, 23);
-        	this.minutesLabel.TabIndex = 12;
-        	this.minutesLabel.Text = "minutes";
+        	this.hourMinutesLabel.Location = new System.Drawing.Point(209, 131);
+        	this.hourMinutesLabel.Name = "hourMinutesLabel";
+        	this.hourMinutesLabel.Size = new System.Drawing.Size(53, 23);
+        	this.hourMinutesLabel.TabIndex = 12;
+        	this.hourMinutesLabel.Text = "minutes";
         	// 
         	// randomIntervalNumericUpDown
         	// 
-        	this.randomIntervalNumericUpDown.Location = new System.Drawing.Point(82, 185);
+        	this.randomIntervalNumericUpDown.Location = new System.Drawing.Point(82, 249);
         	this.randomIntervalNumericUpDown.Maximum = new decimal(new int[] {
         	        	        	1440,
         	        	        	0,
@@ -326,7 +333,7 @@ namespace RandomSoundsApp
         	// 
         	// minuteIntervalLabel
         	// 
-        	this.minuteIntervalLabel.Location = new System.Drawing.Point(135, 187);
+        	this.minuteIntervalLabel.Location = new System.Drawing.Point(135, 251);
         	this.minuteIntervalLabel.Name = "minuteIntervalLabel";
         	this.minuteIntervalLabel.Size = new System.Drawing.Size(100, 23);
         	this.minuteIntervalLabel.TabIndex = 12;
@@ -334,24 +341,24 @@ namespace RandomSoundsApp
         	// 
         	// inEveryLabel
         	// 
-        	this.inEveryLabel.Location = new System.Drawing.Point(34, 187);
+        	this.inEveryLabel.Location = new System.Drawing.Point(34, 251);
         	this.inEveryLabel.Name = "inEveryLabel";
         	this.inEveryLabel.Size = new System.Drawing.Size(102, 23);
         	this.inEveryLabel.TabIndex = 12;
         	this.inEveryLabel.Text = "in every";
         	// 
-        	// label7
+        	// secondLineLabel
         	// 
-        	this.label7.Location = new System.Drawing.Point(16, 210);
-        	this.label7.Name = "label7";
-        	this.label7.Size = new System.Drawing.Size(219, 23);
-        	this.label7.TabIndex = 7;
-        	this.label7.Text = "___________________________________________";
+        	this.secondLineLabel.Location = new System.Drawing.Point(16, 274);
+        	this.secondLineLabel.Name = "secondLineLabel";
+        	this.secondLineLabel.Size = new System.Drawing.Size(219, 23);
+        	this.secondLineLabel.TabIndex = 7;
+        	this.secondLineLabel.Text = "___________________________________________";
         	// 
         	// startCheckBox
         	// 
         	this.startCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        	this.startCheckBox.Location = new System.Drawing.Point(15, 235);
+        	this.startCheckBox.Location = new System.Drawing.Point(15, 299);
         	this.startCheckBox.Name = "startCheckBox";
         	this.startCheckBox.Size = new System.Drawing.Size(219, 24);
         	this.startCheckBox.TabIndex = 13;
@@ -396,21 +403,87 @@ namespace RandomSoundsApp
         	this.notifyExitToolStripMenuItem.Text = "&Exit";
         	this.notifyExitToolStripMenuItem.Click += new System.EventHandler(this.OnExitToolStripMenuItemClick);
         	// 
+        	// fromTheHourLabel
+        	// 
+        	this.fromTheHourLabel.Location = new System.Drawing.Point(34, 149);
+        	this.fromTheHourLabel.Name = "fromTheHourLabel";
+        	this.fromTheHourLabel.Size = new System.Drawing.Size(172, 23);
+        	this.fromTheHourLabel.TabIndex = 12;
+        	this.fromTheHourLabel.Text = "from the hour";
+        	// 
+        	// everyIntervalRadioButton
+        	// 
+        	this.everyIntervalRadioButton.Location = new System.Drawing.Point(15, 175);
+        	this.everyIntervalRadioButton.Name = "everyIntervalRadioButton";
+        	this.everyIntervalRadioButton.Size = new System.Drawing.Size(191, 24);
+        	this.everyIntervalRadioButton.TabIndex = 8;
+        	this.everyIntervalRadioButton.Text = "Play sound exactly every";
+        	this.everyIntervalRadioButton.UseVisualStyleBackColor = true;
+        	this.everyIntervalRadioButton.CheckedChanged += new System.EventHandler(this.OnSettingsRadioButtonCheckedChanged);
+        	// 
+        	// everyIntervalNumericUpDown
+        	// 
+        	this.everyIntervalNumericUpDown.Location = new System.Drawing.Point(156, 178);
+        	this.everyIntervalNumericUpDown.Maximum = new decimal(new int[] {
+        	        	        	1440,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	this.everyIntervalNumericUpDown.Minimum = new decimal(new int[] {
+        	        	        	1,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	this.everyIntervalNumericUpDown.Name = "everyIntervalNumericUpDown";
+        	this.everyIntervalNumericUpDown.Size = new System.Drawing.Size(50, 20);
+        	this.everyIntervalNumericUpDown.TabIndex = 11;
+        	this.everyIntervalNumericUpDown.Value = new decimal(new int[] {
+        	        	        	15,
+        	        	        	0,
+        	        	        	0,
+        	        	        	0});
+        	this.everyIntervalNumericUpDown.ValueChanged += new System.EventHandler(this.OnNumericUpDownValueChanged);
+        	// 
+        	// nowMinutesLabel
+        	// 
+        	this.nowMinutesLabel.Location = new System.Drawing.Point(209, 180);
+        	this.nowMinutesLabel.Name = "nowMinutesLabel";
+        	this.nowMinutesLabel.Size = new System.Drawing.Size(53, 23);
+        	this.nowMinutesLabel.TabIndex = 12;
+        	this.nowMinutesLabel.Text = "minutes";
+        	// 
+        	// fromNowLabel
+        	// 
+        	this.fromNowLabel.Location = new System.Drawing.Point(34, 198);
+        	this.fromNowLabel.Name = "fromNowLabel";
+        	this.fromNowLabel.Size = new System.Drawing.Size(172, 23);
+        	this.fromNowLabel.TabIndex = 12;
+        	this.fromNowLabel.Text = "from now";
+        	// 
+        	// fromTheHourTimer
+        	// 
+        	this.fromTheHourTimer.Tick += new System.EventHandler(this.OnFromTheHourTimerTick);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.ClientSize = new System.Drawing.Size(260, 284);
+        	this.ClientSize = new System.Drawing.Size(260, 353);
         	this.Controls.Add(this.startCheckBox);
         	this.Controls.Add(this.minuteIntervalLabel);
         	this.Controls.Add(this.randomIntervalNumericUpDown);
-        	this.Controls.Add(this.minutesLabel);
+        	this.Controls.Add(this.fromNowLabel);
+        	this.Controls.Add(this.fromTheHourLabel);
+        	this.Controls.Add(this.nowMinutesLabel);
+        	this.Controls.Add(this.hourMinutesLabel);
         	this.Controls.Add(this.everyIntervalNumericUpDown);
+        	this.Controls.Add(this.fromTheHourNumericUpDown);
         	this.Controls.Add(this.onOffPanel);
         	this.Controls.Add(this.randomIntervalRadioButton);
         	this.Controls.Add(this.everyIntervalRadioButton);
-        	this.Controls.Add(this.label7);
-        	this.Controls.Add(this.label2);
+        	this.Controls.Add(this.fromTheHourRadioButton);
+        	this.Controls.Add(this.secondLineLabel);
+        	this.Controls.Add(this.firstLineLabel);
         	this.Controls.Add(this.settingsLabel);
         	this.Controls.Add(this.headerLabel);
         	this.Controls.Add(this.mainMenuStrip);
@@ -418,7 +491,7 @@ namespace RandomSoundsApp
         	this.Controls.Add(this.inEveryLabel);
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MaximizeBox = false;
-        	this.MinimumSize = new System.Drawing.Size(276, 322);
+        	this.MinimumSize = new System.Drawing.Size(276, 391);
         	this.Name = "MainForm";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         	this.Text = "Random Sounds App";
@@ -429,12 +502,19 @@ namespace RandomSoundsApp
         	this.mainStatusStrip.ResumeLayout(false);
         	this.mainStatusStrip.PerformLayout();
         	this.onOffPanel.ResumeLayout(false);
-        	((System.ComponentModel.ISupportInitialize)(this.everyIntervalNumericUpDown)).EndInit();
+        	((System.ComponentModel.ISupportInitialize)(this.fromTheHourNumericUpDown)).EndInit();
         	((System.ComponentModel.ISupportInitialize)(this.randomIntervalNumericUpDown)).EndInit();
         	this.notifyContextMenuStrip.ResumeLayout(false);
+        	((System.ComponentModel.ISupportInitialize)(this.everyIntervalNumericUpDown)).EndInit();
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.Timer fromTheHourTimer;
+        private System.Windows.Forms.Label fromNowLabel;
+        private System.Windows.Forms.Label nowMinutesLabel;
+        private System.Windows.Forms.NumericUpDown everyIntervalNumericUpDown;
+        private System.Windows.Forms.RadioButton everyIntervalRadioButton;
+        private System.Windows.Forms.Label fromTheHourLabel;
         private System.Windows.Forms.ToolStripMenuItem notifyExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip notifyContextMenuStrip;
@@ -445,17 +525,17 @@ namespace RandomSoundsApp
         private System.Windows.Forms.Timer randomIntervalTimer;
         private System.Windows.Forms.Timer exactTimer;
         private System.Windows.Forms.CheckBox startCheckBox;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label secondLineLabel;
         private System.Windows.Forms.Label inEveryLabel;
         private System.Windows.Forms.Label minuteIntervalLabel;
         private System.Windows.Forms.NumericUpDown randomIntervalNumericUpDown;
-        private System.Windows.Forms.Label minutesLabel;
-        private System.Windows.Forms.NumericUpDown everyIntervalNumericUpDown;
+        private System.Windows.Forms.Label hourMinutesLabel;
+        private System.Windows.Forms.NumericUpDown fromTheHourNumericUpDown;
         private System.Windows.Forms.Panel onOffPanel;
         private System.Windows.Forms.RadioButton randomIntervalRadioButton;
-        private System.Windows.Forms.RadioButton everyIntervalRadioButton;
+        private System.Windows.Forms.RadioButton fromTheHourRadioButton;
         private System.Windows.Forms.Label settingsLabel;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label firstLineLabel;
         private System.Windows.Forms.RadioButton offRadioButton;
         private System.Windows.Forms.RadioButton onRadioButton;
         private System.Windows.Forms.Label headerLabel;

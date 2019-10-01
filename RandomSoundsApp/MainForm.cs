@@ -161,7 +161,7 @@ namespace RandomSoundsApp
         private void OnSettingsRadioButtonCheckedChanged(object sender, EventArgs e)
         {
             // Check for no checked radio button
-            if (!this.everyIntervalRadioButton.Checked && !this.randomIntervalRadioButton.Checked)
+            if (!this.fromTheHourRadioButton.Checked && !this.randomIntervalRadioButton.Checked)
             {
                 // Halt flow
                 return;
@@ -177,13 +177,23 @@ namespace RandomSoundsApp
             }
 
             // Set timer interval in milliseconds
-            this.exactTimer.Interval = Convert.ToInt32((this.everyIntervalRadioButton.Checked ? this.everyIntervalNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
+            this.exactTimer.Interval = Convert.ToInt32((this.fromTheHourRadioButton.Checked ? this.fromTheHourNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
 
             // Start exact timer
             this.exactTimer.Start();
 
             // Set settings label color
             this.settingsLabel.ForeColor = Color.Red;
+        }
+
+        /// <summary>
+        /// Handles from the hour timer tick event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnFromTheHourTimerTick(object sender, EventArgs e)
+        {
+            // TODO Add code.
         }
 
         /// <summary>
@@ -194,7 +204,7 @@ namespace RandomSoundsApp
         private void OnExactTimerTick(object sender, EventArgs e)
         {
             // Check for every interval
-            if (this.everyIntervalRadioButton.Checked)
+            if (this.fromTheHourRadioButton.Checked)
             {
                 // Play random sound file
                 this.PlayRandomSoundFile();
@@ -265,7 +275,7 @@ namespace RandomSoundsApp
             if (!isEnabled)
             {
                 // Unckeck radio buttons
-                this.everyIntervalRadioButton.Checked = false;
+                this.fromTheHourRadioButton.Checked = false;
                 this.randomIntervalRadioButton.Checked = false;
 
                 // Reset settings label color
@@ -273,12 +283,12 @@ namespace RandomSoundsApp
             }
 
             // Set enabled status for relevant controls
-            this.everyIntervalRadioButton.Enabled = isEnabled;
+            this.fromTheHourRadioButton.Enabled = isEnabled;
             this.randomIntervalRadioButton.Enabled = isEnabled;
             this.inEveryLabel.Enabled = isEnabled;
-            this.minutesLabel.Enabled = isEnabled;
+            this.hourMinutesLabel.Enabled = isEnabled;
             this.minuteIntervalLabel.Enabled = isEnabled;
-            this.everyIntervalNumericUpDown.Enabled = isEnabled;
+            this.fromTheHourNumericUpDown.Enabled = isEnabled;
             this.randomIntervalNumericUpDown.Enabled = isEnabled;
 
             // Stop timers
@@ -357,7 +367,7 @@ namespace RandomSoundsApp
         private void OnHeadquartersPatreoncomToolStripMenuItemClick(object sender, EventArgs e)
         {
             // Open Patreon headquarters
-            Process.Start("https://www.patreon.com/publicdomain/");
+            Process.Start("https://www.patreon.com/publicdomain");
         }
 
         /// <summary>
@@ -368,7 +378,7 @@ namespace RandomSoundsApp
         private void OnSourceCodeGithubcomToolStripMenuItemClick(object sender, EventArgs e)
         {
             // Open GitHub
-            Process.Start("https://github.com/publicdomain//");
+            Process.Start("https://github.com/publicdomain");
         }
 
         /// <summary>
@@ -414,7 +424,7 @@ namespace RandomSoundsApp
             var aboutForm = new AboutForm(
                 $"About {this.friendlyName}",
                 $"{this.friendlyName} {this.semanticVersion}",
-                "Week #38 @ September 2019",
+                "Week #40 @ September 2019",
                 licenseText,
                 this.Icon.ToBitmap());
 
