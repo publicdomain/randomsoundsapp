@@ -64,12 +64,20 @@ namespace RandomSoundsApp
         private string scannedFiles = string.Empty;
 
         /// <summary>
+        /// The last selected radio button.
+        /// </summary>
+        private RadioButton lastSelectedRadioButton = null;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
         /// </summary>
         public MainForm()
         {
             // The InitializeComponent() call is required for Windows Forms designer support.
             this.InitializeComponent();
+
+            // Set default last selected radio button
+            this.lastSelectedRadioButton = this.fromTheHourRadioButton;
 
             // Set notify icon (utilize current one)
             this.mainNotifyIcon.Icon = this.Icon;
@@ -168,14 +176,10 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnSettingsRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            // Check for no checked radio button
-            if (!this.fromTheHourRadioButton.Checked && !this.randomIntervalRadioButton.Checked)
-            {
-                // Halt flow
-                return;
-            }
+            // Set last selected 
+            this.lastSelectedRadioButton = (RadioButton)sender;
 
-            /* Process */
+            /* Process by "every" and "random" intervals  */
 
             // Check if interval radio button is checked
             if (this.randomIntervalRadioButton.Checked)
@@ -185,7 +189,7 @@ namespace RandomSoundsApp
             }
 
             // Set timer interval in milliseconds
-            this.exactTimer.Interval = Convert.ToInt32((this.fromTheHourRadioButton.Checked ? this.fromTheHourNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
+            this.exactTimer.Interval = Convert.ToInt32((this.everyIntervalRadioButton.Checked ? this.everyIntervalNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
 
             // Start exact timer
             this.exactTimer.Start();
@@ -212,7 +216,7 @@ namespace RandomSoundsApp
         private void OnExactTimerTick(object sender, EventArgs e)
         {
             // Check for every interval
-            if (this.fromTheHourRadioButton.Checked)
+            if (this.everyIntervalRadioButton.Checked)
             {
                 // Play random sound file
                 this.PlayRandomSoundFile();
@@ -283,7 +287,7 @@ namespace RandomSoundsApp
             if (!isEnabled)
             {
                 // Unckeck radio buttons
-                this.fromTheHourRadioButton.Checked = false;
+                this.everyIntervalRadioButton.Checked = false;
                 this.randomIntervalRadioButton.Checked = false;
 
                 // Reset settings label color
@@ -291,7 +295,7 @@ namespace RandomSoundsApp
             }
 
             // Set enabled status for relevant controls
-            this.fromTheHourRadioButton.Enabled = isEnabled;
+            this.everyIntervalRadioButton.Enabled = isEnabled;
             this.randomIntervalRadioButton.Enabled = isEnabled;
             this.inEveryLabel.Enabled = isEnabled;
             this.hourMinutesLabel.Enabled = isEnabled;
@@ -317,6 +321,9 @@ namespace RandomSoundsApp
 
             // Enable relevant form controls
             this.EnableDisableControls(true);
+
+            // Check last selected radio button
+            this.lastSelectedRadioButton.Checked = true;
         }
 
         /// <summary>
