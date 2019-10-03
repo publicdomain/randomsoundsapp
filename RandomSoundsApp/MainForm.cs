@@ -444,6 +444,26 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnOnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
+            // Act only when checked
+            if (!this.onRadioButton.Checked)
+            {
+                // Halt flow
+                return;
+            }
+
+            // Guard against empty sounds list
+            if (this.soundFileList.Count == 0)
+            {
+                // Advise user
+                MessageBox.Show("Please add sound files (.wav) to current directory.", "Empty sounds list", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                // Focus off radio button
+                this.offRadioButton.Checked = true;
+
+                // Halt flow
+                return;
+            }
+
             // Toggle colors
             this.onRadioButton.ForeColor = Color.Red;
             this.offRadioButton.ForeColor = Color.Black;
