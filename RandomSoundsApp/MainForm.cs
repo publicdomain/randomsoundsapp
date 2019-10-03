@@ -14,6 +14,7 @@ namespace RandomSoundsApp
     using System.Linq;
     using System.Media;
     using System.Reflection;
+    using System.Timers;
     using System.Windows.Forms;
     using Microsoft.Win32;
     using PublicDomain;
@@ -32,6 +33,11 @@ namespace RandomSoundsApp
         /// The sound file list.
         /// </summary>
         private List<string> soundFileList = null;
+
+        /// <summary>
+        /// The action timer.
+        /// </summary>
+        private System.Timers.Timer actionTimer = null;
 
         /// <summary>
         /// The pseudo-random number generator.
@@ -69,12 +75,37 @@ namespace RandomSoundsApp
         private RadioButton lastSelectedRadioButton = null;
 
         /// <summary>
+        /// The play sound date time.
+        /// </summary>
+        private DateTime playSoundDateTime;
+
+        /// <summary>
+        /// The random interval date time.
+        /// </summary>
+        private DateTime randomIntervalDateTime;
+
+        /// <summary>
+        /// The timer elapsed second.
+        /// </summary>
+        private int timerElapsedSecond = -1;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
         /// </summary>
         public MainForm()
         {
             // The InitializeComponent() call is required for Windows Forms designer support.
             this.InitializeComponent();
+
+            // Set the action timer
+            this.actionTimer = new System.Timers.Timer
+            {
+                Interval = 10, // Hundreth of a second
+                AutoReset = true // Continuous loop
+            };
+
+            // Hook up the elapsed event
+            this.actionTimer.Elapsed += this.OnActionTimerElapsed;
 
             // Set default last selected radio button
             this.lastSelectedRadioButton = this.fromTheHourRadioButton;
@@ -120,23 +151,92 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
+        /// Handles the action timer elapsed event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnActionTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                // Set current DateTime
+                DateTime dateTime = DateTime.Now;
+
+                // Only once per second
+                if (this.timerElapsedSecond == dateTime.Second)
+                {
+                    // Halt flow
+                    return;
+                }
+
+                // Set current second
+                this.timerElapsedSecond = dateTime.Second;
+
+                // Set time span to next play
+                TimeSpan timeSpan = this.playSoundDateTime - dateTime;
+
+                // Check if must play sound
+                if (timeSpan.TotalSeconds < 1)
+                {
+                    // Get next play DateTime
+                    this.playSoundDateTime = this.GetNextPlaySoundDateTime();
+
+                    // Set time span to next play
+                    timeSpan = this.playSoundDateTime - dateTime;
+
+                    // Play random sound
+                    this.PlayRandomSoundFile();
+                }
+
+                // Declare human-readable time string
+                string friendlyTimeSpan = string.Empty;
+
+                // Check for hours
+                if (timeSpan.Hours > 0)
+                {
+                    // Set hours
+                    friendlyTimeSpan = $"{timeSpan.Hours} hour{(timeSpan.Hours > 1 ? "s" : string.Empty)}, ";
+                }
+
+                // Check for minutes
+                if (timeSpan.Minutes > 0)
+                {
+                    // Set minutes
+                    friendlyTimeSpan += $"{timeSpan.Minutes} minute{(timeSpan.Minutes > 1 ? "s" : string.Empty)}, ";
+                }
+
+                // Check for minutes
+                if (timeSpan.Seconds > 0)
+                {
+                    // Set seconds
+                    friendlyTimeSpan += $"{timeSpan.Seconds} second{(timeSpan.Seconds > 1 ? "s" : string.Empty)}.";
+                }
+
+                // Fix dangling comma
+                if (friendlyTimeSpan.EndsWith(", ", StringComparison.InvariantCulture))
+                {
+                    // Change to period
+                    friendlyTimeSpan = $"{friendlyTimeSpan.Substring(0, friendlyTimeSpan.Length - 2)}.";
+                }
+
+                // Set status
+                this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
+            }
+            catch (Exception ex)
+            {
+                // Advise user
+                MessageBox.Show($"An error occurred:{Environment.NewLine}{Environment.NewLine}{ex.Message}{Environment.NewLine}{Environment.NewLine}Feel free to report it!", "Action timer error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Plays the passed sound file.
         /// </summary>
         /// <param name="filePath">File path.</param>
         private void PlaySoundFile(string filePath)
         {
-            // Check for previous player
-            if (this.soundPlayer != null)
-            {
-                // Stop it
-                this.soundPlayer.Stop();
-
-                // Dispose of it
-                this.soundPlayer.Dispose();
-
-                // Reset instance variable
-                this.soundPlayer = null;
-            }
+            // Dispose of any previous player
+            this.DisposeSoundPlayer();
 
             // Set instance player afresh
             this.soundPlayer = new SoundPlayer(filePath);
@@ -152,6 +252,25 @@ namespace RandomSoundsApp
         {
             // Re-use instance's random to pick file to play
             this.PlaySoundFile(this.soundFileList[this.random.Next(this.soundFileList.Count)]);
+        }
+
+        /// <summary>
+        /// Disposes the sound player.
+        /// </summary>
+        private void DisposeSoundPlayer()
+        {
+            // Check for previous player
+            if (this.soundPlayer != null)
+            {
+                // Stop it
+                this.soundPlayer.Stop();
+
+                // Dispose of it
+                this.soundPlayer.Dispose();
+
+                // Reset instance variable
+                this.soundPlayer = null;
+            }
         }
 
         /// <summary>
@@ -176,73 +295,84 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnSettingsRadioButtonCheckedChanged(object sender, EventArgs e)
         {
+            // Only flow when checked
+            if (!((RadioButton)sender).Checked)
+            {
+                // Halt flow
+                return;
+            }
+
             // Set last selected 
             this.lastSelectedRadioButton = (RadioButton)sender;
 
-            /* Process by "every" and "random" intervals  */
+            // Dispose of any sound player
+            this.DisposeSoundPlayer();
 
-            // Check if interval radio button is checked
-            if (this.randomIntervalRadioButton.Checked)
+            // Check for random interval
+            if (this.lastSelectedRadioButton == this.randomIntervalRadioButton)
             {
-                // Trigger initial timer tick
-                this.OnExactTimerTick(null, null);
+                // Reset random interval DateTime
+                this.randomIntervalDateTime = new DateTime(0001, 1, 1);
             }
 
-            // Set timer interval in milliseconds
-            this.exactTimer.Interval = Convert.ToInt32((this.everyIntervalRadioButton.Checked ? this.everyIntervalNumericUpDown.Value : this.randomIntervalNumericUpDown.Value) * 60 * 1000);
+            // Set play sound date time value
+            this.playSoundDateTime = this.GetNextPlaySoundDateTime();
 
-            // Start exact timer
-            this.exactTimer.Start();
-
-            // Set settings label color
-            this.settingsLabel.ForeColor = Color.Red;
+            // Inform
+            this.mainToolStripStatusLabel.Text = "Initializing...";
         }
 
         /// <summary>
-        /// Handles from the hour timer tick event.
+        /// Gets the next play sound date time.
         /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void OnFromTheHourTimerTick(object sender, EventArgs e)
+        /// <returns>The next play sound date time.</returns>
+        private DateTime GetNextPlaySoundDateTime()
         {
-            // TODO Add code.
-        }
+            // Set current DateTime
+            DateTime dateTime = DateTime.Now;
 
-        /// <summary>
-        /// Handles the exact timer tick event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void OnExactTimerTick(object sender, EventArgs e)
-        {
-            // Check for every interval
-            if (this.everyIntervalRadioButton.Checked)
+            // Act upon current checked radio button
+            if (this.fromTheHourRadioButton.Checked)
             {
-                // Play random sound file
-                this.PlayRandomSoundFile();
+                // Add until modulo is zero
+                do
+                {
+                    // Add one minute
+                    dateTime = dateTime.AddMinutes(1);
+                }
+                while (dateTime.Minute % (int)this.fromTheHourNumericUpDown.Value != 0);
+
+                // Remove seconds
+                dateTime = dateTime.AddSeconds(-dateTime.Second);
+            }
+            else if (this.everyIntervalRadioButton.Checked)
+            {
+                // Add specific minutes to current date
+                dateTime = dateTime.AddMinutes((int)this.everyIntervalNumericUpDown.Value);
             }
             else
             {
-                // Set random interval timer interval in milliseconds
-                this.randomIntervalTimer.Interval = this.random.Next(Convert.ToInt32(this.randomIntervalNumericUpDown.Value * 60 * 1000));
+                // Set random value to subtract, by next
+                int randomNext = this.random.Next(1, (int)this.randomIntervalNumericUpDown.Value * 60);
 
-                // Start random interval timer
-                this.randomIntervalTimer.Start();
+                // Compare random interval DateTime to current one
+                if (this.randomIntervalDateTime.CompareTo(dateTime) < 1)
+                {
+                    // Set random interval Datetime by adding minutes to now
+                    this.randomIntervalDateTime = dateTime.AddMinutes((double)this.randomIntervalNumericUpDown.Value);
+                }
+                else
+                {
+                    // Set random interval Datetime by adding minutes to itself
+                    this.randomIntervalDateTime = this.randomIntervalDateTime.AddMinutes((double)this.randomIntervalNumericUpDown.Value);
+                }
+
+                // Set by subtracting random  seconds (within range)
+                dateTime = this.randomIntervalDateTime.AddSeconds(-randomNext);
             }
-        }
 
-        /// <summary>
-        /// Handles the random interval timer tick event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void OnRandomIntervalTimerTick(object sender, EventArgs e)
-        {
-            // Stop the timer
-            this.randomIntervalTimer.Stop();
-
-            // Play random sound file
-            this.PlayRandomSoundFile();
+            // Return processed DateTime
+            return dateTime;
         }
 
         /// <summary>
@@ -287,25 +417,24 @@ namespace RandomSoundsApp
             if (!isEnabled)
             {
                 // Unckeck radio buttons
+                this.fromTheHourRadioButton.Checked = false;
                 this.everyIntervalRadioButton.Checked = false;
                 this.randomIntervalRadioButton.Checked = false;
-
-                // Reset settings label color
-                this.settingsLabel.ForeColor = Color.Black;
             }
 
             // Set enabled status for relevant controls
-            this.everyIntervalRadioButton.Enabled = isEnabled;
-            this.randomIntervalRadioButton.Enabled = isEnabled;
-            this.inEveryLabel.Enabled = isEnabled;
-            this.hourMinutesLabel.Enabled = isEnabled;
-            this.minuteIntervalLabel.Enabled = isEnabled;
+            this.fromTheHourRadioButton.Enabled = isEnabled;
             this.fromTheHourNumericUpDown.Enabled = isEnabled;
+            this.fromTheHourMinutesLabel.Enabled = isEnabled;
+            this.fromTheHourLabel.Enabled = isEnabled;
+            this.everyIntervalRadioButton.Enabled = isEnabled;
+            this.everyIntervalNumericUpDown.Enabled = isEnabled;
+            this.everyIntervalMinutesLabel.Enabled = isEnabled;
+            this.everyIntervalFromNowLabel.Enabled = isEnabled;
+            this.randomIntervalRadioButton.Enabled = isEnabled;
+            this.randomIntervalInEveryLabel.Enabled = isEnabled;
             this.randomIntervalNumericUpDown.Enabled = isEnabled;
-
-            // Stop timers
-            this.exactTimer.Stop();
-            this.randomIntervalTimer.Stop();
+            this.randomIntervalMinuteIntervalLabel.Enabled = isEnabled;
         }
 
         /// <summary>
@@ -318,12 +447,16 @@ namespace RandomSoundsApp
             // Toggle colors
             this.onRadioButton.ForeColor = Color.Red;
             this.offRadioButton.ForeColor = Color.Black;
+            this.settingsLabel.ForeColor = Color.Red;
 
             // Enable relevant form controls
             this.EnableDisableControls(true);
 
             // Check last selected radio button
             this.lastSelectedRadioButton.Checked = true;
+
+            // Start timer
+            this.actionTimer.Start();
         }
 
         /// <summary>
@@ -333,9 +466,16 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnOffRadioButtonCheckedChanged(object sender, EventArgs e)
         {
+            // Stop timer
+            this.actionTimer.Stop();
+
+            // Dispose of any active sound player
+            this.DisposeSoundPlayer();
+
             // Toggle colors
             this.offRadioButton.ForeColor = Color.Red;
             this.onRadioButton.ForeColor = Color.Black;
+            this.settingsLabel.ForeColor = Color.Black;
 
             // Disable relevant form controls
             this.EnableDisableControls(false);
@@ -345,14 +485,56 @@ namespace RandomSoundsApp
         }
 
         /// <summary>
+        /// Unchecks the radio buttons.
+        /// </summary>
+        private void UncheckRadioButtons()
+        {
+            // Uncheck all radio buttons
+            this.fromTheHourRadioButton.Checked = false;
+            this.everyIntervalRadioButton.Checked = false;
+            this.randomIntervalRadioButton.Checked = false;
+        }
+
+        /// <summary>
         /// Handles the numeric up down value changed event.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
         private void OnNumericUpDownValueChanged(object sender, EventArgs e)
         {
-            // Trigger settings radio button check
-            this.OnSettingsRadioButtonCheckedChanged(null, null);
+            // Clear radio buttons' check state in order to guarantee below's check work
+            this.UncheckRadioButtons();
+
+            // Set matching sender, according to numeric up down name, to use switch(string)
+            switch (((NumericUpDown)sender).Name)
+            {
+                // From the hour
+                case "fromTheHourNumericUpDown":
+
+                    // Check radio button
+                    this.fromTheHourRadioButton.Checked = true;
+
+                    // Halt flow
+                    break;
+
+                // Interval
+                case "everyIntervalNumericUpDown":
+
+                    // Check radio button
+                    this.everyIntervalRadioButton.Checked = true;
+
+                    // Halt flow
+                    break;
+
+                // Random
+                case "randomIntervalNumericUpDown":
+
+                    // Check radio button
+                    this.randomIntervalRadioButton.Checked = true;
+
+                    // Halt flow
+                    break;
+            }
         }
 
         /// <summary>
@@ -437,12 +619,11 @@ namespace RandomSoundsApp
                 $"Letter D by ArtsyBee - Pixabay License{Environment.NewLine}" +
                 $"https://pixabay.com/illustrations/d-glamour-gold-lights-2790573/{Environment.NewLine}{Environment.NewLine}";
 
-
             // Set about form
             var aboutForm = new AboutForm(
                 $"About {this.friendlyName}",
                 $"{this.friendlyName} {this.semanticVersion}",
-                "Week #40 @ September 2019",
+                $"Made for: JIMDUGGAN{Environment.NewLine}DonationCoder.com{Environment.NewLine}Week #40 @ September 2019",
                 licenseText,
                 this.Icon.ToBitmap());
 
