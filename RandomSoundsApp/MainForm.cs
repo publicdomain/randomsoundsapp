@@ -190,7 +190,7 @@ namespace RandomSoundsApp
 
                 // Declare human-readable time string
                 string friendlyTimeSpan = string.Empty;
-
+/*
                 // Check for hours
                 if (timeSpan.Hours > 0)
                 {
@@ -221,7 +221,7 @@ namespace RandomSoundsApp
 
                 // Set status
                 this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
-            }
+           */ }
             catch (Exception ex)
             {
                 // Advise user
