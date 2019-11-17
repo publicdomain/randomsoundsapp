@@ -49,6 +49,7 @@ namespace RandomSoundsApp
         	this.originalThreadDonationCodercomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
         	this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        	this.minimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
         	this.mainToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
         	this.headerLabel = new System.Windows.Forms.Label();
@@ -88,7 +89,8 @@ namespace RandomSoundsApp
         	// 
         	this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.fileToolStripMenuItem,
-        	        	        	this.helpToolStripMenuItem});
+        	        	        	this.helpToolStripMenuItem,
+        	        	        	this.minimizeToolStripMenuItem});
         	this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
         	this.mainMenuStrip.Name = "mainMenuStrip";
         	this.mainMenuStrip.Size = new System.Drawing.Size(270, 24);
@@ -176,6 +178,14 @@ namespace RandomSoundsApp
         	this.aboutToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
         	this.aboutToolStripMenuItem.Text = "&About...";
         	this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAboutToolStripMenuItemClick);
+        	// 
+        	// minimizeToolStripMenuItem
+        	// 
+        	this.minimizeToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+        	this.minimizeToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("minimizeToolStripMenuItem.Image")));
+        	this.minimizeToolStripMenuItem.Name = "minimizeToolStripMenuItem";
+        	this.minimizeToolStripMenuItem.Size = new System.Drawing.Size(28, 20);
+        	this.minimizeToolStripMenuItem.Click += new System.EventHandler(this.OnMinimizeToolStripMenuItemClick);
         	// 
         	// mainStatusStrip
         	// 
@@ -476,6 +486,7 @@ namespace RandomSoundsApp
         	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         	this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
         	this.MaximizeBox = false;
+        	this.MinimizeBox = false;
         	this.MinimumSize = new System.Drawing.Size(276, 300);
         	this.Name = "MainForm";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -494,6 +505,7 @@ namespace RandomSoundsApp
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.Label everyIntervalFromNowLabel;
         private System.Windows.Forms.Label everyIntervalMinutesLabel;
         private System.Windows.Forms.NumericUpDown everyIntervalNumericUpDown;

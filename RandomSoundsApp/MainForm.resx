@@ -121,6 +121,18 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="minimizeToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAAmJL
+        R0QAAKqNIzIAAAAHdElNRQfjCxAWLykzyNrBAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTExLTE2VDIy
+        OjQ3OjQxKzAwOjAwQ6oY5QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0xMS0xNlQyMjo0Nzo0MSswMDow
+        MDL3oFkAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAnElEQVQ4T2NgYGB4CcRn
+        yMQgvWDN5IKzyAYwATnCJJqEYgBI8wUg1iTBEBQDQPpAmtENicZjIIYBILXqQHweiLWhGsGKcACsBqAb
+        QpYByN4BeQkXOIQcCzBFUUAGcrqYj8cAFmwGYFMvARRMw4LDiTUgAahwORYDHpBiQC4Wp4FTMTFJGeSC
+        QWwAvux8FOh0LiAOAeJHaNEL8vpzAPlqQXSRKr6pAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="headquartersPatreoncomToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

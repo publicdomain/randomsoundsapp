@@ -190,38 +190,39 @@ namespace RandomSoundsApp
 
                 // Declare human-readable time string
                 string friendlyTimeSpan = string.Empty;
-/*
-                // Check for hours
-                if (timeSpan.Hours > 0)
-                {
-                    // Set hours
-                    friendlyTimeSpan = $"{timeSpan.Hours} hour{(timeSpan.Hours > 1 ? "s" : string.Empty)}, ";
-                }
+                /*
+                                // Check for hours
+                                if (timeSpan.Hours > 0)
+                                {
+                                    // Set hours
+                                    friendlyTimeSpan = $"{timeSpan.Hours} hour{(timeSpan.Hours > 1 ? "s" : string.Empty)}, ";
+                                }
 
-                // Check for minutes
-                if (timeSpan.Minutes > 0)
-                {
-                    // Set minutes
-                    friendlyTimeSpan += $"{timeSpan.Minutes} minute{(timeSpan.Minutes > 1 ? "s" : string.Empty)}, ";
-                }
+                                // Check for minutes
+                                if (timeSpan.Minutes > 0)
+                                {
+                                    // Set minutes
+                                    friendlyTimeSpan += $"{timeSpan.Minutes} minute{(timeSpan.Minutes > 1 ? "s" : string.Empty)}, ";
+                                }
 
-                // Check for minutes
-                if (timeSpan.Seconds > 0)
-                {
-                    // Set seconds
-                    friendlyTimeSpan += $"{timeSpan.Seconds} second{(timeSpan.Seconds > 1 ? "s" : string.Empty)}.";
-                }
+                                // Check for minutes
+                                if (timeSpan.Seconds > 0)
+                                {
+                                    // Set seconds
+                                    friendlyTimeSpan += $"{timeSpan.Seconds} second{(timeSpan.Seconds > 1 ? "s" : string.Empty)}.";
+                                }
 
-                // Fix dangling comma
-                if (friendlyTimeSpan.EndsWith(", ", StringComparison.InvariantCulture))
-                {
-                    // Change to period
-                    friendlyTimeSpan = $"{friendlyTimeSpan.Substring(0, friendlyTimeSpan.Length - 2)}.";
-                }
+                                // Fix dangling comma
+                                if (friendlyTimeSpan.EndsWith(", ", StringComparison.InvariantCulture))
+                                {
+                                    // Change to period
+                                    friendlyTimeSpan = $"{friendlyTimeSpan.Substring(0, friendlyTimeSpan.Length - 2)}.";
+                                }
 
-                // Set status
-                this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
-           */ }
+                                // Set status
+                                this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
+                           */
+            }
             catch (Exception ex)
             {
                 // Advise user
@@ -625,6 +626,8 @@ namespace RandomSoundsApp
                 $"Libraries and icons have separate licenses.{Environment.NewLine}{Environment.NewLine}" +
                 $"Sound icon by Openclipart - Public Domain dedication{Environment.NewLine}" +
                 $"https://publicdomainvectors.org/en/free-clipart/Sound-speaker/82806.html{Environment.NewLine}{Environment.NewLine}" +
+                $"Minimize icon by made by Gregor Cresnar from www.flaticon.com{Environment.NewLine}" +
+                $"https://www.flaticon.com/authors/gregor-cresnar{Environment.NewLine}{Environment.NewLine}" +
                 $"Patreon icon used according to published brand guidelines{Environment.NewLine}" +
                 $"https://www.patreon.com/brand{Environment.NewLine}{Environment.NewLine}" +
                 $"GitHub mark icon used according to published logos and usage guidelines{Environment.NewLine}" +
@@ -733,6 +736,17 @@ namespace RandomSoundsApp
                 // Send to the system tray
                 this.SendToSystemTray();
             }
+        }
+
+        /// <summary>
+        /// Handles the minimize tool strip menu item click event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnMinimizeToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            // Minimize program window
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
