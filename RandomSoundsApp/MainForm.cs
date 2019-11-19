@@ -16,6 +16,7 @@ namespace RandomSoundsApp
     using System.Reflection;
     using System.Timers;
     using System.Windows.Forms;
+    using System.Xml.Serialization;
     using Microsoft.Win32;
     using PublicDomain;
 
@@ -90,6 +91,16 @@ namespace RandomSoundsApp
         private int timerElapsedSecond = -1;
 
         /// <summary>
+        /// The settings data.
+        /// </summary>
+        private SettingsData settingsData = new SettingsData();
+
+        /// <summary>
+        /// The restoring values flag.
+        /// </summary>
+        private bool RestoringValuesFlag = true;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
         /// </summary>
         public MainForm()
@@ -148,6 +159,61 @@ namespace RandomSoundsApp
                 // Start as a system tray icon
                 this.SendToSystemTray();
             }
+
+            /* Load settings */
+
+            // Check for settings file
+            if (File.Exists("SettingsData.txt"))
+            {
+                // Load from disk
+                this.settingsData = this.LoadSettingsData();
+
+                // Set numeric up down values
+                this.fromTheHourNumericUpDown.Value = this.settingsData.TimeIntervalOption1;
+                this.everyIntervalNumericUpDown.Value = this.settingsData.TimeIntervalOption2;
+                this.randomIntervalNumericUpDown.Value = this.settingsData.TimeIntervalOption3;
+
+                // Toggle restoring values flag
+                this.RestoringValuesFlag = false;
+
+                // Set option state
+                switch (this.settingsData.OptionState)
+                {
+                    // From the hour
+                    case 1:
+
+                        // Set radio button
+                        this.lastSelectedRadioButton = this.fromTheHourRadioButton;
+
+                        // Halt flow
+                        break;
+
+                    // Every interval
+                    case 2:
+
+                        // Set radio button
+                        this.lastSelectedRadioButton = this.everyIntervalRadioButton;
+
+                        // Halt flow
+                        break;
+
+                    // Random interval
+                    case 3:
+
+                        // Set radio button
+                        this.lastSelectedRadioButton = this.randomIntervalRadioButton;
+
+                        // Halt flow
+                        break;
+                }
+
+                // Set on state
+                if (this.settingsData.OnState == 1)
+                {
+                    // Check on radio button
+                    this.onRadioButton.Checked = true;
+                }
+            }
         }
 
         /// <summary>
@@ -190,38 +256,37 @@ namespace RandomSoundsApp
 
                 // Declare human-readable time string
                 string friendlyTimeSpan = string.Empty;
-                /*
-                                // Check for hours
-                                if (timeSpan.Hours > 0)
-                                {
-                                    // Set hours
-                                    friendlyTimeSpan = $"{timeSpan.Hours} hour{(timeSpan.Hours > 1 ? "s" : string.Empty)}, ";
-                                }
 
-                                // Check for minutes
-                                if (timeSpan.Minutes > 0)
-                                {
-                                    // Set minutes
-                                    friendlyTimeSpan += $"{timeSpan.Minutes} minute{(timeSpan.Minutes > 1 ? "s" : string.Empty)}, ";
-                                }
+                // Check for hours
+                if (timeSpan.Hours > 0)
+                {
+                    // Set hours
+                    friendlyTimeSpan = $"{timeSpan.Hours} hour{(timeSpan.Hours > 1 ? "s" : string.Empty)}, ";
+                }
 
-                                // Check for minutes
-                                if (timeSpan.Seconds > 0)
-                                {
-                                    // Set seconds
-                                    friendlyTimeSpan += $"{timeSpan.Seconds} second{(timeSpan.Seconds > 1 ? "s" : string.Empty)}.";
-                                }
+                // Check for minutes
+                if (timeSpan.Minutes > 0)
+                {
+                    // Set minutes
+                    friendlyTimeSpan += $"{timeSpan.Minutes} minute{(timeSpan.Minutes > 1 ? "s" : string.Empty)}, ";
+                }
 
-                                // Fix dangling comma
-                                if (friendlyTimeSpan.EndsWith(", ", StringComparison.InvariantCulture))
-                                {
-                                    // Change to period
-                                    friendlyTimeSpan = $"{friendlyTimeSpan.Substring(0, friendlyTimeSpan.Length - 2)}.";
-                                }
+                // Check for minutes
+                if (timeSpan.Seconds > 0)
+                {
+                    // Set seconds
+                    friendlyTimeSpan += $"{timeSpan.Seconds} second{(timeSpan.Seconds > 1 ? "s" : string.Empty)}.";
+                }
 
-                                // Set status
-                                this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
-                           */
+                // Fix dangling comma
+                if (friendlyTimeSpan.EndsWith(", ", StringComparison.InvariantCulture))
+                {
+                    // Change to period
+                    friendlyTimeSpan = $"{friendlyTimeSpan.Substring(0, friendlyTimeSpan.Length - 2)}.";
+                }
+
+                // Set status
+                this.mainToolStripStatusLabel.Text = friendlyTimeSpan.Length > 0 ? $"Next play in {friendlyTimeSpan}" : "Now playing...";
             }
             catch (Exception ex)
             {
@@ -321,6 +386,48 @@ namespace RandomSoundsApp
 
             // Inform
             this.mainToolStripStatusLabel.Text = "Initializing...";
+
+            /* Save to settings file*/
+
+            // Declare option state; default to zero to prevent use of unasigned local variable
+            int optionState = 0;
+
+            // Switch by first letter of name
+            switch (this.lastSelectedRadioButton.Name.Substring(0, 1))
+            {
+                // From the hour
+                case "f":
+
+                    // Set to one
+                    optionState = 1;
+
+                    // Halt flow
+                    break;
+
+                // Every interval
+                case "e":
+
+                    // Set to two
+                    optionState = 2;
+
+                    // Halt flow
+                    break;
+
+                // Random interval
+                case "r":
+
+                    // Set to three
+                    optionState = 3;
+
+                    // Halt flow
+                    break;
+            }
+
+            // Set option state
+            this.settingsData.OptionState = optionState;
+
+            // Save to settings file
+            this.SaveSettingsData();
         }
 
         /// <summary>
@@ -476,6 +583,12 @@ namespace RandomSoundsApp
             // Check last selected radio button
             this.lastSelectedRadioButton.Checked = true;
 
+            // Set on state in settings
+            this.settingsData.OnState = 1;
+
+            // Save settings data to disk
+            this.SaveSettingsData();
+
             // Start timer
             this.actionTimer.Start();
         }
@@ -501,6 +614,12 @@ namespace RandomSoundsApp
             // Disable relevant form controls
             this.EnableDisableControls(false);
 
+            // Set off state in settings
+            this.settingsData.OnState = 0;
+
+            // Save settings data to disk
+            this.SaveSettingsData();
+
             // Inform scanned file count
             this.mainToolStripStatusLabel.Text = this.scannedFiles;
         }
@@ -523,6 +642,13 @@ namespace RandomSoundsApp
         /// <param name="e">Event arguments.</param>
         private void OnNumericUpDownValueChanged(object sender, EventArgs e)
         {
+            // Check if restoring values
+            if (this.RestoringValuesFlag)
+            {
+                // Halt flow
+                return;
+            }
+
             // Clear radio buttons' check state in order to guarantee below's check work
             this.UncheckRadioButtons();
 
@@ -535,6 +661,9 @@ namespace RandomSoundsApp
                     // Check radio button
                     this.fromTheHourRadioButton.Checked = true;
 
+                    // Time interval option one
+                    this.settingsData.TimeIntervalOption1 = (int)this.fromTheHourNumericUpDown.Value;
+
                     // Halt flow
                     break;
 
@@ -543,6 +672,9 @@ namespace RandomSoundsApp
 
                     // Check radio button
                     this.everyIntervalRadioButton.Checked = true;
+
+                    // Time interval option two
+                    this.settingsData.TimeIntervalOption2 = (int)this.everyIntervalNumericUpDown.Value;
 
                     // Halt flow
                     break;
@@ -553,9 +685,15 @@ namespace RandomSoundsApp
                     // Check radio button
                     this.randomIntervalRadioButton.Checked = true;
 
+                    // Time interval option three
+                    this.settingsData.TimeIntervalOption3 = (int)this.randomIntervalNumericUpDown.Value;
+
                     // Halt flow
                     break;
             }
+
+            // Save new time interval
+            this.SaveSettingsData();
         }
 
         /// <summary>
@@ -747,6 +885,39 @@ namespace RandomSoundsApp
         {
             // Minimize program window
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        /// <summary>
+        /// Saves the settings data.
+        /// </summary>
+        private void SaveSettingsData()
+        {
+            // Use stream writer
+            using (StreamWriter streamWriter = new StreamWriter("SettingsData.txt", false))
+            {
+                // Set xml serialzer
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(SettingsData));
+
+                // Serialize settings data
+                xmlSerializer.Serialize(streamWriter, this.settingsData);
+            }
+        }
+
+        /// <summary>
+        /// Loads the settings data.
+        /// </summary>
+        /// <returns>The settings data.</returns>
+        private SettingsData LoadSettingsData()
+        {
+            // Use file stream
+            using (FileStream fileStream = File.OpenRead("SettingsData.txt"))
+            {
+                // Set xml serialzer
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(SettingsData));
+
+                // Return populated settings data
+                return xmlSerializer.Deserialize(fileStream) as SettingsData;
+            }
         }
     }
 }
