@@ -76,6 +76,7 @@ namespace RandomSoundsApp
         	this.everyIntervalNumericUpDown = new System.Windows.Forms.NumericUpDown();
         	this.everyIntervalMinutesLabel = new System.Windows.Forms.Label();
         	this.everyIntervalFromNowLabel = new System.Windows.Forms.Label();
+        	this.muteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         	this.mainMenuStrip.SuspendLayout();
         	this.mainStatusStrip.SuspendLayout();
         	this.onOffPanel.SuspendLayout();
@@ -383,21 +384,22 @@ namespace RandomSoundsApp
         	// 
         	this.notifyContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
         	        	        	this.showToolStripMenuItem,
+        	        	        	this.muteToolStripMenuItem,
         	        	        	this.notifyExitToolStripMenuItem});
         	this.notifyContextMenuStrip.Name = "notifyContextMenuStrip";
-        	this.notifyContextMenuStrip.Size = new System.Drawing.Size(104, 48);
+        	this.notifyContextMenuStrip.Size = new System.Drawing.Size(153, 92);
         	// 
         	// showToolStripMenuItem
         	// 
         	this.showToolStripMenuItem.Name = "showToolStripMenuItem";
-        	this.showToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+        	this.showToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
         	this.showToolStripMenuItem.Text = "&Show";
         	this.showToolStripMenuItem.Click += new System.EventHandler(this.OnShowToolStripMenuItemClick);
         	// 
         	// notifyExitToolStripMenuItem
         	// 
         	this.notifyExitToolStripMenuItem.Name = "notifyExitToolStripMenuItem";
-        	this.notifyExitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+        	this.notifyExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
         	this.notifyExitToolStripMenuItem.Text = "&Exit";
         	this.notifyExitToolStripMenuItem.Click += new System.EventHandler(this.OnExitToolStripMenuItemClick);
         	// 
@@ -458,6 +460,13 @@ namespace RandomSoundsApp
         	this.everyIntervalFromNowLabel.TabIndex = 12;
         	this.everyIntervalFromNowLabel.Text = "from now";
         	// 
+        	// muteToolStripMenuItem
+        	// 
+        	this.muteToolStripMenuItem.Name = "muteToolStripMenuItem";
+        	this.muteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+        	this.muteToolStripMenuItem.Text = "&Mute";
+        	this.muteToolStripMenuItem.Click += new System.EventHandler(this.OnMuteToolStripMenuItemClick);
+        	// 
         	// MainForm
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,6 +514,7 @@ namespace RandomSoundsApp
         	this.ResumeLayout(false);
         	this.PerformLayout();
         }
+        private System.Windows.Forms.ToolStripMenuItem muteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem minimizeToolStripMenuItem;
         private System.Windows.Forms.Label everyIntervalFromNowLabel;
         private System.Windows.Forms.Label everyIntervalMinutesLabel;

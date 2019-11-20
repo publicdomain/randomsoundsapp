@@ -86,9 +86,9 @@ namespace RandomSoundsApp
         private DateTime randomIntervalDateTime;
 
         /// <summary>
-        /// The timer elapsed second.
+        /// The timer elapsed date time.
         /// </summary>
-        private int timerElapsedSecond = -1;
+        private DateTime timerElapsedDateTime = DateTime.Now;
 
         /// <summary>
         /// The settings data.
@@ -99,6 +99,11 @@ namespace RandomSoundsApp
         /// The restoring values flag.
         /// </summary>
         private bool RestoringValuesFlag = true;
+
+        /// <summary>
+        /// The mute flag.
+        /// </summary>
+        private bool muteFlag;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RandomSoundsApp.MainForm"/> class.
@@ -228,15 +233,15 @@ namespace RandomSoundsApp
                 // Set current DateTime
                 DateTime dateTime = DateTime.Now;
 
-                // Only once per second
-                if (this.timerElapsedSecond == dateTime.Second)
+                // TODO Halt on less than 1-second difference from last play to address double-play bug [Check for side effects or possibly refactor]
+                if (Math.Abs((dateTime - this.timerElapsedDateTime).TotalSeconds) < 1)
                 {
                     // Halt flow
                     return;
                 }
 
-                // Set current second
-                this.timerElapsedSecond = dateTime.Second;
+                // Set elapsed DateTime to current one
+                this.timerElapsedDateTime = dateTime;
 
                 // Set time span to next play
                 TimeSpan timeSpan = this.playSoundDateTime - dateTime;
@@ -316,8 +321,12 @@ namespace RandomSoundsApp
         /// </summary>
         private void PlayRandomSoundFile()
         {
-            // Re-use instance's random to pick file to play
-            this.PlaySoundFile(this.soundFileList[this.random.Next(this.soundFileList.Count)]);
+            // Check mute flag (Play if not active)
+            if (!this.muteFlag)
+            {
+                // Re-use instance's random to pick file to play
+                this.PlaySoundFile(this.soundFileList[this.random.Next(this.soundFileList.Count)]);
+            }
         }
 
         /// <summary>
@@ -705,6 +714,20 @@ namespace RandomSoundsApp
         {
             // Re-scan current directory
             this.ScanDirectory();
+        }
+
+        /// <summary>
+        /// Handles the mute tool strip menu item click event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void OnMuteToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            // Toggle checked state
+            this.muteToolStripMenuItem.Checked = !this.muteToolStripMenuItem.Checked;
+
+            // Set mute flag
+            this.muteFlag = this.muteToolStripMenuItem.Checked;
         }
 
         /// <summary>
