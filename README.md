@@ -1,7 +1,7 @@
 # Random Sounds App
 Play random .wav from a folder at random times.
 
-![Random Sounds App image](https://i.imgsafe.org/6e/6e4ebf3d8c.png)
+![Random Sounds App image](https://user-images.githubusercontent.com/54631779/69199016-1a2f2880-0b0d-11ea-9d95-1a735675dd9d.png)
 
 Made for **jimduggan** from [donationcoder.com](https://www.donationcoder.com).
 
@@ -9,16 +9,12 @@ Original thread: [IDEA: play random wav from a folder at random times](https://w
 
 Usage video:
 
-[![Random Sounds App v0.2.0](http://img.youtube.com/vi/osEKSoPeP2o/0.jpg)](http://www.youtube.com/watch?v=osEKSoPeP2o "Random Sounds App v0.2.0")
+[![Random Sounds App v0.3.2](http://img.youtube.com/vi/osEKSoPeP2o/0.jpg)](http://www.youtube.com/watch?v=osEKSoPeP2o "Random Sounds App v0.3.2")
 
-v0.2.0 changes:
-- Add "minutes from the hour" mode.
-- Fix form size.
-- Update about message.
-- Add remaining time to next play.
-- Add remember last selected radio button.
-- Add guard against empty sounds list.
-- Add silencing player when turning off or changing mode.
+v0.3.2 notable changes:
+- Add minimize button to menu strip.
+- Add save settings data support.
+- Add mute mode.
 
 More releases @ our Patreon headquarters:
 https://www.patreon.com/publicdomain
