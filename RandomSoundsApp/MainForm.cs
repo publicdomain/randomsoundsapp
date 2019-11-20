@@ -807,7 +807,7 @@ namespace RandomSoundsApp
             var aboutForm = new AboutForm(
                 $"About {this.friendlyName}",
                 $"{this.friendlyName} {this.semanticVersion}",
-                $"Made for: JIMDUGGAN{Environment.NewLine}DonationCoder.com{Environment.NewLine}Week #40 @ September 2019",
+                $"Made for: JIMDUGGAN{Environment.NewLine}DonationCoder.com{Environment.NewLine}Week #47 @ November 2019",
                 licenseText,
                 this.Icon.ToBitmap());
 
