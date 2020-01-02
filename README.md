@@ -9,12 +9,10 @@ Original thread: [IDEA: play random wav from a folder at random times](https://w
 
 Usage video:
 
-[![Random Sounds App v0.3.2](http://img.youtube.com/vi/osEKSoPeP2o/0.jpg)](http://www.youtube.com/watch?v=osEKSoPeP2o "Random Sounds App v0.3.2")
+[![Random Sounds App v0.4.1](http://img.youtube.com/vi/osEKSoPeP2o/0.jpg)](http://www.youtube.com/watch?v=osEKSoPeP2o "Random Sounds App v0.4.1")
 
-v0.3.2 notable changes:
-- Add minimize button to menu strip.
-- Add save settings data support.
-- Add mute mode.
+v0.4.1 notable changes:
+- Fix multi-play.
 
 More releases @ our Patreon headquarters:
 https://www.patreon.com/publicdomain
