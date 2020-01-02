@@ -2,7 +2,6 @@
 //     CC0 1.0 Universal (CC0 1.0) - Public Domain Dedication
 //     https://creativecommons.org/publicdomain/zero/1.0/legalcode
 // </copyright>
-
 namespace RandomSoundsApp
 {
     // Directives
@@ -81,14 +80,14 @@ namespace RandomSoundsApp
         private DateTime playSoundDateTime;
 
         /// <summary>
+        /// The played sound date time. One year in the future to signal first time.
+        /// </summary>
+        private DateTime playedSoundDateTime = DateTime.Now.AddYears(1);
+
+        /// <summary>
         /// The random interval date time.
         /// </summary>
         private DateTime randomIntervalDateTime;
-
-        /// <summary>
-        /// The timer elapsed date time.
-        /// </summary>
-        private DateTime timerElapsedDateTime = DateTime.Now;
 
         /// <summary>
         /// The settings data.
@@ -233,16 +232,6 @@ namespace RandomSoundsApp
                 // Set current DateTime
                 DateTime dateTime = DateTime.Now;
 
-                // TODO Halt on less than 1-second difference from last play to address double-play bug [Check for side effects or possibly refactor]
-                if (Math.Abs((dateTime - this.timerElapsedDateTime).TotalSeconds) < 1)
-                {
-                    // Halt flow
-                    return;
-                }
-
-                // Set elapsed DateTime to current one
-                this.timerElapsedDateTime = dateTime;
-
                 // Set time span to next play
                 TimeSpan timeSpan = this.playSoundDateTime - dateTime;
 
@@ -255,8 +244,17 @@ namespace RandomSoundsApp
                     // Set time span to next play
                     timeSpan = this.playSoundDateTime - dateTime;
 
-                    // Play random sound
-                    this.PlayRandomSoundFile();
+                    // Check for first-time (to prevent same-second-play scenario)
+                    if (playedSoundDateTime.CompareTo(DateTime.Now) > 0)
+                    {
+                        // Play random sound (skipping checks)
+                        this.PlayRandomSoundFile(true);
+                    }
+                    else
+                    {
+                        // Play random sound
+                        this.PlayRandomSoundFile(false);
+                    }
                 }
 
                 // Declare human-readable time string
@@ -319,11 +317,15 @@ namespace RandomSoundsApp
         /// <summary>
         /// Plays a random sound in collected file list.
         /// </summary>
-        private void PlayRandomSoundFile()
+        /// <param name="skipChecks">If set to <c>true</c> skip checks.</param>
+        private void PlayRandomSoundFile(bool skipChecks)
         {
-            // Check mute flag (Play if not active)
-            if (!this.muteFlag)
+            // Check mute flag (Play if not active) and two seconds have passed (to prevent same-second play scenario)
+            if (skipChecks || (!this.muteFlag && (DateTime.Now - this.playedSoundDateTime).TotalSeconds > 2))
             {
+                // Set played sound DateTime
+                this.playedSoundDateTime = DateTime.Now;
+
                 // Re-use instance's random to pick file to play
                 this.PlaySoundFile(this.soundFileList[this.random.Next(this.soundFileList.Count)]);
             }
@@ -410,6 +412,9 @@ namespace RandomSoundsApp
                     // Set to one
                     optionState = 1;
 
+                    // Focus numeric up down
+                    //this.fromTheHourNumericUpDown
+
                     // Halt flow
                     break;
 
@@ -419,6 +424,9 @@ namespace RandomSoundsApp
                     // Set to two
                     optionState = 2;
 
+                    // Focus numeric up down
+                    //this.everyIntervalNumericUpDown
+
                     // Halt flow
                     break;
 
@@ -427,6 +435,9 @@ namespace RandomSoundsApp
 
                     // Set to three
                     optionState = 3;
+
+                    // Focus numeric up down
+                    //this.randomIntervalNumericUpDown
 
                     // Halt flow
                     break;
