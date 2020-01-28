@@ -131,6 +131,9 @@ namespace RandomSoundsApp
             // Set semantic version
             this.semanticVersion = this.assemblyVersion.Major + "." + this.assemblyVersion.Minor + "." + this.assemblyVersion.Build;
 
+            // TODO Set current directory [can be made conditional to: args[1] == "/autostart"]
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
+
             // Open registry key
             using (RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
             {
@@ -138,7 +141,7 @@ namespace RandomSoundsApp
                 this.startCheckBox.Checked |= registryKey.GetValueNames().Contains("RandomSoundsApp");
             }
 
-            // Match off radio button state by disabling controls on start
+            // Match "off" radio button state by disabling controls on start
             this.EnableDisableControls(false);
 
             // Scan current directory for sound files
